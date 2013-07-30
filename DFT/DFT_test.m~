@@ -5,12 +5,6 @@ clc;
 %%%%%% PARAMETERS %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-% Signal Parameters
-signalFrequency = 3906.25; % Hz
-signalRunTime = 1e0; % s
-signalPower = 23.9794; % dBm, 50 ohm
-SNR = -2e1; % dB
-
 % Signal Processing Parameters
 samplingPoints = 256;
 windowShift = 0e2; % Samples
@@ -22,25 +16,11 @@ paddingValue = 1e-17;
 %%%%%% SIGNAL GENERATION %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Time Vector
-t = 0 : 1/samplingFrequency : signalRunTime;
-
-% Signal Power in W
-P_S = 10^(signalPower/10)/1000;
-
-% Signal Type
-signalAmplitude = sqrt(2*P_S*50);
-signal = signalAmplitude*sin(2*pi*signalFrequency*t);
-
-% AWGN
-%signal = awgn(signal,SNR, 'measured');
+[signal, t] = generateSignal(samplingFrequency);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% CALCULATIONS %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Calculate Signal Power for 50 Ohm
-P_S_calculated = rms(signal).^2./50;
 
 % Window Shift
 shiftedWindowedSignal = signal(windowShift+1 : windowShift+samplingPoints);
