@@ -6,9 +6,9 @@ function [ modulatedSignal ] = modulateSignal( t, signal )
 %%%%%% PARAMETERS %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-modFrequency = 3906.25*1.5; % Hz
+modFrequency = 400e6; % Hz
 modPhase = 5; % rad
-modulationIndex = .5; % [0,1]
+modulationIndex = 0.5; % [0,1]
 
 modSignal = modulationIndex*sin(2*pi*modFrequency*t+modPhase);
 

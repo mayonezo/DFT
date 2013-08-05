@@ -6,11 +6,11 @@ clc;
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 % Signal Processing Parameters
-samplingPoints = 256;
+samplingPoints = 2^14; % best values for FFT are powers of 2
 windowShift = 0e2; % Samples
-samplingFrequency = 1e4; % Hz
-paddingNum = 0e3; % number of padding values at the beginning AND the end of the signal
-paddingValue = 1e-17;
+samplingFrequency = 10e9; % samples/s
+paddingNum = 1e5; % number of padding values at the beginning AND the end of the signal
+paddingValue = 0; % 0 causes huge CPU usage when using DFT_vector, 1e-17 doesn't
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% SIGNAL GENERATION %%%%%%
@@ -56,6 +56,8 @@ f_full = linspace(-(samplingFrequency/2),(samplingFrequency/2),pointsToCalculate
 f_pos = linspace(0,(samplingFrequency/2),pointsToCalculate/2+1);
 
 figure(1);
+
+% only allow horizontal zooming
 h = zoom;
 set(h,'Motion','horizontal','Enable','on');
 

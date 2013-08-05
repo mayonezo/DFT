@@ -8,9 +8,9 @@ function [ signal, t ] = generateSignal(samplingFrequency)
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 % Signal Parameters
-signalFrequency = 3906.25; % Hz
+signalFrequency = 2.5e9; % Hz
 signalPhase = 5; % rad
-signalRunTime = 1e0; % s
+signalRunTime = 1e-4; % s
 signalPower = 23.9794; % dBm, 50 ohm
 SNR = 2e1; % dB
 
