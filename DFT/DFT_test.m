@@ -9,7 +9,7 @@ clc;
 samplingPoints = 256;
 windowShift = 0e2; % Samples
 samplingFrequency = 1e4; % Hz
-paddingNum = 1e3; % number of padding values at the beginning AND the end of the signal
+paddingNum = 0e3; % number of padding values at the beginning AND the end of the signal
 paddingValue = 1e-17;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -30,30 +30,30 @@ shiftedWindowedSignal = signal(windowShift+1 : windowShift+samplingPoints);
 shiftedPaddedWindowedSignal = padarray(shiftedWindowedSignal,[0 paddingNum], paddingValue);
 pointsToCalculate = length(shiftedPaddedWindowedSignal);
 
-% Create DFT-Matrix
-Y = DFT_matrix(shiftedPaddedWindowedSignal, pointsToCalculate, samplingPoints);
+% Create DFT-Vector...
+
+% ...direct approach
+% Y = DFT_vector(shiftedPaddedWindowedSignal, pointsToCalculate, samplingPoints);
+
+% ...using FFT
+Y = fft(shiftedPaddedWindowedSignal)/samplingPoints;
+
+% Shift DFT-Vector, so that negative values appear on the left
+Y = fftshift(Y);
 
 % Re, Im, Abs, Phase, Spectral Density
-rePart = DFT_Real(Y, pointsToCalculate);
-rePart = [rePart(pointsToCalculate/2+2:pointsToCalculate) ; rePart(1:pointsToCalculate/2+1)];
-
-imPart = DFT_Imaginaer(Y, pointsToCalculate);
-imPart = [imPart(pointsToCalculate/2+2:pointsToCalculate) ; imPart(1:pointsToCalculate/2+1)];
-
-A = DFT_Betrag(Y, pointsToCalculate);
-A = [A(pointsToCalculate/2+2:pointsToCalculate) ; A(1:pointsToCalculate/2+1)];
-
-phi = DFT_Phase(Y, pointsToCalculate);
-phi = [phi(pointsToCalculate/2+2:pointsToCalculate) ; phi(1:pointsToCalculate/2+1)];
-
+rePart = real(Y);
+imPart = imag(Y);
+A = abs(Y);
+phi = angle(Y);
 spectralDensity = A.^2./50;
 
 %%%%%%%%%%%%%%%%%%%
 %%%%%% PLOTS %%%%%%
 %%%%%%%%%%%%%%%%%%%
 
-f_full = (samplingFrequency/2)*linspace(-1,1,pointsToCalculate);
-f_pos = (samplingFrequency/2)*linspace(0,1,pointsToCalculate/2+1);
+f_full = linspace(-(samplingFrequency/2),(samplingFrequency/2),pointsToCalculate);
+f_pos = linspace(0,(samplingFrequency/2),pointsToCalculate/2+1);
 
 figure(1);
 h = zoom;

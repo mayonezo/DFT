@@ -1,7 +1,0 @@
-function [ output_args ] = modulateSignal( modFrequency, modPhase, mod )
-% adds modulation to a signal
-%   Detailed explanation goes here
-
-
-end
-
